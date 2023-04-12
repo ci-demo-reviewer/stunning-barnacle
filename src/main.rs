@@ -2,7 +2,9 @@
 
 fn read_line() -> String {
     let mut line = String::new();
-    std::io::stdin().read_line(&mut line).expect("Failed to read from stdin");
+    std::io::stdin()
+        .read_line(&mut line)
+        .expect("Failed to read from stdin");
 
     line.trim().into()
 }
@@ -29,7 +31,7 @@ impl Greeter {
         if hour > 4 && hour < 11 {
             format!("Good morning {}!", self.name)
         } else if hour < 17 {
-            todo!("Implement")
+            format!("Good day {}!", self.name)
         } else {
             todo!("Implement")
         }
@@ -40,4 +42,10 @@ impl Greeter {
 fn test_morning_greeting() {
     let greeter = Greeter::new("Test".into());
     assert!(greeter.get_greeting(6).contains("morning"));
+}
+
+#[test]
+fn test_day_greeting() {
+    let greeter = Greeter::new("Test".into());
+    assert!(greeter.get_greeting(15).contains("day"));
 }
