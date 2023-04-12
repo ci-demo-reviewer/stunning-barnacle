@@ -1,0 +1,31 @@
+name: 'Build and create release'
+on:
+  workflow_run:
+    workflows:
+      - 'Check'
+    branches:
+      - 'main'
+    types:
+      - 'completed'
+
+jobs:
+  build:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    name: 'Build artifact'
+    runs-on: 'ubuntu-22.04'
+    container:
+      image: 'rust:1.68.2-buster'
+    steps:
+      - name: 'Checkout'
+        uses: 'actions/checkout@v3'
+        with:
+          ref: ${{ github.event.workflow_run.head_branch }}
+      - name: 'Build application'
+        run: 'cargo build --release'
+  notify:
+    needs:
+      - 'build'
+    runs-on: 'ubuntu-22.04'
+    steps:
+      - name: 'Notify of new release'
+        run: 'echo "New release!"'
