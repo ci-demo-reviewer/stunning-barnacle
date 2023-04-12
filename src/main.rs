@@ -47,5 +47,5 @@ fn test_morning_greeting() {
 #[test]
 fn test_day_greeting() {
     let greeter = Greeter::new("Test".into());
-    assert!(greeter.get_greeting(15).contains("day"));
+    assert!(greeter.get_greeting(14).contains("day"));
 }
